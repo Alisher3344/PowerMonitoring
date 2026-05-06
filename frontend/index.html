@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Monitor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scene">
+        <header>
+            <h1>Power Monitor</h1>
+            <div class="conn" id="conn">
+                <span class="dot" id="conn-dot"></span>
+                <span id="conn-text">Ulanmoqda...</span>
+            </div>
+        </header>
+
+        <div class="stage">
+            <div class="bulb-area">
+                <svg class="bulb" id="bulb" viewBox="0 0 240 380" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="glassOff" cx="40%" cy="35%" r="65%">
+                            <stop offset="0%" stop-color="#e8eef5" stop-opacity="0.18"/>
+                            <stop offset="55%" stop-color="#aab4c2" stop-opacity="0.10"/>
+                            <stop offset="100%" stop-color="#1a1f28" stop-opacity="0.55"/>
+                        </radialGradient>
+
+                        <radialGradient id="glassOn" cx="50%" cy="42%" r="68%">
+                            <stop offset="0%" stop-color="#fffce0" stop-opacity="0.95"/>
+                            <stop offset="35%" stop-color="#ffe89a" stop-opacity="0.85"/>
+                            <stop offset="70%" stop-color="#ffb349" stop-opacity="0.72"/>
+                            <stop offset="100%" stop-color="#ff7a1e" stop-opacity="0.45"/>
+                        </radialGradient>
+
+                        <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#3a3d44"/>
+                            <stop offset="15%" stop-color="#7c8088"/>
+                            <stop offset="35%" stop-color="#c9ccd2"/>
+                            <stop offset="55%" stop-color="#e3e6ea"/>
+                            <stop offset="75%" stop-color="#a8acb3"/>
+                            <stop offset="100%" stop-color="#3a3d44"/>
+                        </linearGradient>
+
+                        <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#2a2d33"/>
+                            <stop offset="50%" stop-color="#6a6e76"/>
+                            <stop offset="100%" stop-color="#2a2d33"/>
+                        </linearGradient>
+
+                        <linearGradient id="filamentOff" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#5a5048"/>
+                            <stop offset="100%" stop-color="#3a3530"/>
+                        </linearGradient>
+
+                        <linearGradient id="filamentOn" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="50%" stop-color="#fff3a8"/>
+                            <stop offset="100%" stop-color="#ffb84a"/>
+                        </linearGradient>
+
+                        <filter id="filGlow" x="-150%" y="-150%" width="400%" height="400%">
+                            <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                            <feMerge>
+                                <feMergeNode in="blur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+
+                        <filter id="bulbGlow" x="-100%" y="-100%" width="300%" height="300%">
+                            <feGaussianBlur stdDeviation="14"/>
+                        </filter>
+                    </defs>
+
+                    <circle class="halo halo-3" cx="120" cy="135" r="135" fill="#ffb84a" opacity="0"/>
+                    <circle class="halo halo-2" cx="120" cy="135" r="105" fill="#ffd070" opacity="0"/>
+                    <circle class="halo halo-1" cx="120" cy="135" r="80" fill="#fff0b0" opacity="0"/>
+
+                    <path class="bulb-shape" d="
+                        M 120 30
+                        C 72 30, 42 68, 42 118
+                        C 42 148, 56 174, 72 198
+                        C 80 210, 86 222, 86 232
+                        L 154 232
+                        C 154 222, 160 210, 168 198
+                        C 184 174, 198 148, 198 118
+                        C 198 68, 168 30, 120 30 Z
+                    " fill="url(#glassOff)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+                    <ellipse class="highlight" cx="78" cy="80" rx="10" ry="32"
+                             fill="rgba(255,255,255,0.22)" transform="rotate(-18 78 80)"/>
+                    <ellipse class="highlight-sm" cx="92" cy="60" rx="4" ry="10"
+                             fill="rgba(255,255,255,0.35)" transform="rotate(-18 92 60)"/>
+
+                    <path d="M 108 178 L 108 230 L 132 230 L 132 178
+                             C 132 172, 128 168, 120 168
+                             C 112 168, 108 172, 108 178 Z"
+                          fill="rgba(180,190,200,0.12)" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+
+                    <line x1="112" y1="178" x2="100" y2="125" stroke="#8a7355" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="128" y1="178" x2="140" y2="125" stroke="#8a7355" stroke-width="1.6" stroke-linecap="round"/>
+
+                    <g class="filament-group">
+                        <path class="filament" d="
+                            M 100 125
+                            L 104 117 L 108 125
+                            L 112 117 L 116 125
+                            L 120 117 L 124 125
+                            L 128 117 L 132 125
+                            L 136 117 L 140 125
+                        " fill="none" stroke="url(#filamentOff)" stroke-width="2.2"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+
+                    <rect x="84" y="232" width="72" height="6" fill="url(#metal)" stroke="#1a1d22" stroke-width="0.5"/>
+
+                    <g class="threads">
+                        <path d="M 86 238 L 154 238 L 152 246 L 88 246 Z" fill="url(#metal)"/>
+                        <path d="M 88 246 L 152 246 L 150 254 L 90 254 Z" fill="url(#metalDark)"/>
+                        <path d="M 90 254 L 150 254 L 148 262 L 92 262 Z" fill="url(#metal)"/>
+                        <path d="M 92 262 L 148 262 L 146 270 L 94 270 Z" fill="url(#metalDark)"/>
+                        <path d="M 94 270 L 146 270 L 144 278 L 96 278 Z" fill="url(#metal)"/>
+                        <path d="M 96 278 L 144 278 L 142 286 L 98 286 Z" fill="url(#metalDark)"/>
+                        <path d="M 98 286 L 142 286 L 140 294 L 100 294 Z" fill="url(#metal)"/>
+                    </g>
+
+                    <path d="M 100 294 L 140 294 L 132 308 L 108 308 Z" fill="#0e0f12"/>
+
+                    <ellipse cx="120" cy="312" rx="12" ry="5" fill="url(#metal)" stroke="#1a1d22" stroke-width="0.5"/>
+
+                    <ellipse class="floor-light" cx="120" cy="345" rx="0" ry="0" fill="#ffd070" opacity="0"/>
+                </svg>
+            </div>
+
+            <div class="readout">
+                <div class="label">Holat</div>
+                <div class="value" id="state">—</div>
+                <div class="meta" id="updated">hech qachon</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

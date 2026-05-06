@@ -1,0 +1,212 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg-top: #0a0d12;
+    --bg-bot: #14181f;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --accent: #ffc864;
+    --green: #3fb950;
+    --red: #f85149;
+    --gray: #6e7681;
+}
+
+html, body {
+    height: 100%;
+    background: radial-gradient(ellipse at center top, #1a2030 0%, var(--bg-bot) 70%);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+body {
+    transition: background 0.6s ease;
+}
+
+body.lit {
+    background: radial-gradient(ellipse at center 40%, #3a2e1a 0%, #1a1410 60%, #0a0806 100%);
+}
+
+.scene {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+}
+
+.conn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gray);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.conn.online .dot {
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+}
+
+.conn.offline .dot {
+    background: var(--red);
+}
+
+.stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.bulb-area {
+    width: 280px;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.bulb {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.bulb-shape {
+    transition: fill 0.5s ease;
+}
+
+.bulb.on .bulb-shape {
+    fill: url(#glassOn);
+}
+
+.filament {
+    transition: stroke 0.3s ease, filter 0.3s ease;
+}
+
+.bulb.on .filament {
+    stroke: url(#filamentOn);
+    stroke-width: 2.6;
+    filter: url(#filGlow);
+}
+
+.halo {
+    transition: opacity 0.6s ease;
+}
+
+.bulb.on .halo-1 { opacity: 0.55; animation: pulse1 3s ease-in-out infinite; }
+.bulb.on .halo-2 { opacity: 0.30; animation: pulse2 3s ease-in-out infinite; }
+.bulb.on .halo-3 { opacity: 0.16; animation: pulse3 3s ease-in-out infinite; }
+
+@keyframes pulse1 {
+    0%, 100% { opacity: 0.50; }
+    50% { opacity: 0.62; }
+}
+@keyframes pulse2 {
+    0%, 100% { opacity: 0.26; }
+    50% { opacity: 0.36; }
+}
+@keyframes pulse3 {
+    0%, 100% { opacity: 0.12; }
+    50% { opacity: 0.20; }
+}
+
+.highlight, .highlight-sm {
+    transition: opacity 0.4s ease;
+}
+
+.bulb.on .highlight,
+.bulb.on .highlight-sm {
+    opacity: 0;
+}
+
+.floor-light {
+    transition: opacity 0.6s ease, rx 0.6s ease, ry 0.6s ease;
+}
+
+.bulb.on .floor-light {
+    opacity: 0.5;
+    rx: 90;
+    ry: 14;
+}
+
+.readout {
+    text-align: center;
+}
+
+.label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+}
+
+.value {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--gray);
+    transition: color 0.4s, text-shadow 0.4s;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.value.high {
+    color: var(--accent);
+    text-shadow: 0 0 24px rgba(255, 200, 100, 0.5);
+}
+
+.value.low {
+    color: var(--gray);
+}
+
+.meta {
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+@media (max-width: 480px) {
+    .bulb-area {
+        width: 220px;
+        height: 340px;
+    }
+    .value {
+        font-size: 38px;
+    }
+    h1 {
+        font-size: 17px;
+    }
+}
