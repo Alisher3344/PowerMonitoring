@@ -2,8 +2,8 @@
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
 
-const char* WIFI_SSID     = "WIFI_NOMI";
-const char* WIFI_PASSWORD = "WIFI_PAROL";
+const char* WIFI_SSID     = "alisher";
+const char* WIFI_PASSWORD = "19761980";
 const char* SERVER_URL    = "https://powermonitoring-riea.onrender.com/status";
 
 const int INPUT_PIN = 4;
